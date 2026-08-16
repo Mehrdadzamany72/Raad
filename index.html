@@ -65,13 +65,25 @@
 
         .brand-container {
             display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-text-group {
+            display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
 
         .brand-title {
             font-family: var(--font-editorial);
-            font-size: 2.3rem;
+            font-size: 2.1rem;
             font-weight: 800;
             letter-spacing: 8px;
             color: var(--gold-primary);
@@ -618,8 +630,11 @@
     <!-- Header Navbar -->
     <header class="header">
         <div class="brand-container">
-            <a href="#" class="brand-title">RÂAD</a>
-            <span class="brand-tag">Clothing (Brand)</span>
+            <img src="./logo.png" alt="RÂAD Logo" class="brand-logo" onerror="this.style.display='none'">
+            <div class="brand-text-group">
+                <a href="#" class="brand-title">RÂAD</a>
+                <span class="brand-tag">Clothing (Brand)</span>
+            </div>
         </div>
         
         <nav>
@@ -788,9 +803,12 @@
         const slide1 = document.getElementById("slide-1");
         const slide2 = document.getElementById("slide-2");
 
-        const frameCount = 1243;
-        // فراخوانی مستقیم از پوشه frames داخل همان ریپازیتوری
-        const currentFrame = index => `./frames/frame_${index + 1}.jpg`;
+        // بازه دقیق فریم‌ها: ۱۲۴۱ فریم از ۱۰۰۰۰ تا ۱۱۲۴۰
+        const startFrame = 10000;
+        const endFrame = 11240;
+        const frameCount = (endFrame - startFrame) + 1; 
+        
+        const currentFrame = index => `./frames/${startFrame + index}.webp`;
 
         const images = [];
 
@@ -818,7 +836,7 @@
 
                 if (i === 0) renderFrame(0);
 
-                // لودینگ به محض آماده شدن فریم‌ها محو می‌شود
+                // با لود شدن ۴۰ فریم اولیه لودینگ مخفی می‌شود تا کاربر منتظر نماند و بقیه فریم‌ها در پس‌زمینه بارگذاری می‌شوند
                 if (loadedCount === frameCount || loadedCount >= 40) {
                     loader.style.opacity = '0';
                     setTimeout(() => {
