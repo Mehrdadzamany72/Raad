@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RÂAD | Haute Couture & Bespoke Tailoring</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #F3E5AB;
+            --bg-dark: #070707;
+            --text-light: #FFFFFF;
+            --text-muted: #A3A3A3;
+            --border-gold: rgba(212, 175, 55, 0.25);
+            --font-editorial: 'Cinzel', serif;
+            --font-sub: 'Montserrat', sans-serif;
+            --font-persian: 'Vazirmatn', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-persian);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ---------------- Dark & Atmospheric Intro Overlay ---------------- */
+        .intro-dark-veil {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 5, 5, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 3;
+            pointer-events: none;
+            transition: opacity 0.1s linear, backdrop-filter 0.1s linear;
+        }
+
+        /* ---------------- Architectural Luxury Header ---------------- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.4rem 4.5rem;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0) 100%);
+            transition: all 0.4s ease;
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-title {
+            font-family: var(--font-editorial);
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: 8px;
+            color: var(--gold-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            line-height: 1;
+            text-shadow: 0 0 18px rgba(212, 175, 55, 0.45), 0 0 35px rgba(212, 175, 55, 0.2);
+        }
+
+        .brand-tag {
+            font-family: var(--font-sub);
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            margin-top: 6px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3.5rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-persian);
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            position: relative;
+            padding-bottom: 6px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
+            box-shadow: 0 0 10px var(--gold-primary);
+            transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover {
+            color: #FFFFFF;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hamburger-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 4px;
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 34px;
+            height: 2px;
+            background-color: var(--gold-primary);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn:hover span {
+            background-color: var(--gold-light);
+            box-shadow: 0 0 14px var(--gold-primary);
+        }
+
+        /* ---------------- Off-Canvas Menu ---------------- */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 420px;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.97);
+            border-left: 1px solid var(--border-gold);
+            backdrop-filter: blur(25px);
+            z-index: 102;
+            padding: 5rem 3rem 3rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-gold);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            outline: none;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-family: var(--font-persian);
+        }
+
+        .search-input:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .menu-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .menu-items a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-family: var(--font-persian);
+        }
+
+        .menu-items a:hover {
+            color: var(--gold-primary);
+            transform: translateX(-8px);
+        }
+
+        .side-menu-locations {
+            border-top: 1px solid var(--border-gold);
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: var(--font-sub);
+        }
+
+        .side-menu-locations p span {
+            color: var(--gold-primary);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 101;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ---------------- Canvas Container ---------------- */
+        .scroll-container {
+            height: 750vh;
+        }
+
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            background-color: var(--bg-dark);
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ---------------- Pure Editorial Typography ---------------- */
+        .cinematic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .editorial-text {
+            position: absolute;
+            opacity: 0;
+            filter: blur(12px);
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .editorial-text.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        .editorial-text .sub-title {
+            font-family: var(--font-sub);
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+        }
+
+        .editorial-text .main-heading {
+            font-family: var(--font-editorial);
+            font-size: 2.4rem;
+            letter-spacing: 4px;
+            color: var(--text-light);
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 0.8rem;
+            text-shadow: 0 4px 25px rgba(0,0,0,1);
+        }
+
+        .editorial-text .heritage-tag {
+            font-family: var(--font-persian);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+            font-weight: 400;
+            line-height: 1.8;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+        }
+
+        .slide-hero {
+            bottom: 8%;
+            right: 5%;
+            text-align: right;
+            max-width: 500px;
+        }
+
+        .slide-craft {
+            bottom: 10%;
+            left: 5%;
+            text-align: left;
+            max-width: 500px;
+        }
+
+        .slide-heritage {
+            top: 16%;
+            right: 5%;
+            text-align: right;
+            max-width: 520px;
+        }
+
+        /* ---------------- Prominent Luxury Loader Screen ---------------- */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #050505;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
+        }
+
+        .loader-box {
+            padding: 3.5rem 4.5rem;
+            border: 1px solid var(--border-gold);
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .loader-brand {
+            font-family: var(--font-editorial);
+            font-size: 2.2rem;
+            letter-spacing: 8px;
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
+
+        .loader-status {
+            font-family: var(--font-editorial);
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .loader-progress-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .loader-progress-fill {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--gold-primary);
+            transition: width 0.2s ease;
+            box-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        /* ---------------- Master High-Fashion Footer ---------------- */
+        .footer {
+            position: relative;
+            z-index: 10;
+            background: #030303;
+            border-top: 1px solid var(--border-gold);
+            padding: 5.5rem 5rem 3rem 5rem;
+        }
+
+        .footer-grid {
+            max-width: 1350px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1.5fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .footer-logo-title {
+            font-family: var(--font-editorial);
+            font-size: 2.4rem;
+            letter-spacing: 8px;
+            color: var(--gold-primary);
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 2;
+            max-width: 380px;
+            font-weight: 300;
+        }
+
+        .footer-column-title {
+            font-family: var(--font-editorial);
+            color: var(--gold-primary);
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 400;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-primary);
+            transform: translateX(-6px);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .footer-locations {
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            font-family: var(--font-sub);
+        }
+
+        .location-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            border-right: 2px solid var(--border-gold);
+            padding-right: 1.2rem;
+        }
+
+        .location-city {
+            font-family: var(--font-editorial);
+            color: var(--gold-primary);
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-size: 0.95rem;
+        }
+
+        .footer-phones {
+            margin-top: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            direction: ltr;
+            text-align: right;
+            font-family: var(--font-sub);
+            color: var(--gold-light);
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        }
+
+        .footer-bottom {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .social-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-gold);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--gold-primary);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+        }
+
+        .social-icon-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--gold-primary);
+            transition: fill 0.35s ease, transform 0.35s ease;
+        }
+
+        .social-icon-btn:hover {
+            background: var(--gold-primary);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .social-icon-btn:hover svg {
+            fill: #000000;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 1024px) {
+            .header { padding: 1.2rem 2rem; }
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 1rem 1.2rem; }
+            .brand-title { font-size: 1.8rem; letter-spacing: 5px; }
+            .side-menu { width: 100vw; padding: 4rem 2rem 2rem 2rem; }
+            .slide-hero, .slide-craft, .slide-heritage { right: 5%; left: 5%; text-align: center; max-width: 100%; }
+            .footer { padding: 4rem 1.5rem 2rem 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .footer-bottom { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .loader-box { padding: 2.5rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Atmospheric Dark Veil (Fades on Scroll) -->
+    <div class="intro-dark-veil" id="intro-veil"></div>
+
+    <!-- Header Navbar -->
+    <header class="header">
+        <div class="brand-container">
+            <a href="#" class="brand-title">RÂAD</a>
+            <span class="brand-tag">Clothing (Brand)</span>
+        </div>
+        
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">صفحه اصلی</a></li>
+                <li><a href="#collections">کالکشن‌ها</a></li>
+                <li><a href="#bespoke">سفارش شخصی‌دوزی</a></li>
+                <li><a href="#heritage">اصالت برند</a></li>
+                <li><a href="#contact">ارتباط با ما</a></li>
+            </ul>
+        </nav>
+
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="منوی سایت">
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Drawer Navigation -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <aside class="side-menu" id="side-menu">
+        <div>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="جستجو در کالکشن راد...">
+            </div>
+            <ul class="menu-items">
+                <li><a href="#home">صفحه اصلی</a></li>
+                <li><a href="#collections">کالکشن کت و شلوار</a></li>
+                <li><a href="#bespoke">خدمات شخصی‌دوزی (Bespoke)</a></li>
+                <li><a href="#lookbook">دفترچه استایل (Lookbook)</a></li>
+                <li><a href="#contact">رزرو نوبت و ارتباط با ما</a></li>
+            </ul>
+        </div>
+
+        <div class="side-menu-locations">
+            <p><span>▪️ Tehran:</span> Fereshteh Av. Shabdiz st</p>
+            <p><span>▪️ Paris:</span> Champs-Élysées Av</p>
+        </div>
+    </aside>
+
+    <!-- Prominent Luxury Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-box">
+            <div class="loader-brand">RÂAD</div>
+            <div class="loader-status">LOADING <span id="progress">0%</span></div>
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas Engine Stage -->
+    <div class="canvas-container">
+        <canvas id="hero-canvas"></canvas>
+    </div>
+
+    <!-- Cinematic Pure Typography Overlay -->
+    <div class="cinematic-overlay">
+        <!-- Slide 0: Hero Title -->
+        <div class="editorial-text slide-hero" id="slide-0">
+            <div class="sub-title">Haute Couture</div>
+            <div class="main-heading">EXCEPTIONAL CRAFTSMANSHIP</div>
+            <div class="heritage-tag">Inspired by Persian Heritage ⚓︎</div>
+        </div>
+
+        <!-- Slide 1: Pure Text Model 1 -->
+        <div class="editorial-text slide-craft" id="slide-1">
+            <div class="sub-title">PERSIAN HERITAGE</div>
+            <div class="main-heading">TIMELESS ELEGANCE</div>
+            <div class="heritage-tag">بازآفرینی شکوه اصالت ایرانی در قالبی مدرن و منحصر‌به‌فرد</div>
+        </div>
+
+        <!-- Slide 2: Pure Text Model 1 -->
+        <div class="editorial-text slide-heritage" id="slide-2">
+            <div class="sub-title">BESPOKE TAILORING</div>
+            <div class="main-heading">PERFECT GEOMETRY</div>
+            <div class="heritage-tag">برش‌های دقیق هندسی و ظرافت خیاطی فاخر دست‌دوز</div>
+        </div>
+    </div>
+
+    <div class="scroll-container"></div>
+
+    <!-- Master High-Fashion Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo-title">RÂAD</div>
+                <p class="footer-desc">Exceptional Craftsmanship | Inspired by Persian Heritage ⚓︎<br>خانه مد و شخصی‌دوزی فاخر کت‌وشلوار مردانه با استانداردهای بین‌المللی.</p>
+
+                <div class="footer-phones">
+                    <span>0912 5 011 011</span>
+                    <span>0912 6 011 011</span>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="footer-column-title">دسترسی سریع</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">صفحه اصلی</a></li>
+                    <li><a href="#collections">کالکشن‌ها</a></li>
+                    <li><a href="#bespoke">سفارش شخصی‌دوزی</a></li>
+                    <li><a href="#about">درباره برند</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-column-title">خدمات مشتریان</h4>
+                <ul class="footer-links">
+                    <li><a href="#lookbook">دفترچه استایل</a></li>
+                    <li><a href="#size-guide">راهنمای سایزگیری</a></li>
+                    <li><a href="#faq">سوالات متداول</a></li>
+                    <li><a href="#contact">رزرو نوبت حضوری</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-column-title">بوتیک‌های اختصاصی</h4>
+                <div class="footer-locations">
+                    <div class="location-item">
+                        <span class="location-city">TEHRAN</span>
+                        <span>Fereshteh Av. Shabdiz st</span>
+                    </div>
+                    <div class="location-item">
+                        <span class="location-city">PARIS</span>
+                        <span>Champs-Élysées Av</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>حقوق مادی و معنوی محفوظ است © ۲۰۲۶ RÂAD</span>
+
+            <div class="social-icons">
+                <a href="#" class="social-icon-btn" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon-btn" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon-btn" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <span>Clothing (Brand)</span>
+        </div>
+    </footer>
+
+    <!-- Canvas Engine & Script -->
+    <script>
+        const canvas = document.getElementById("hero-canvas");
+        const context = canvas.getContext("2d");
+        const loader = document.getElementById("loader");
+        const progressText = document.getElementById("progress");
+        const progressFill = document.getElementById("progress-fill");
+        const introVeil = document.getElementById("intro-veil");
+
+        const slide0 = document.getElementById("slide-0");
+        const slide1 = document.getElementById("slide-1");
+        const slide2 = document.getElementById("slide-2");
+
+        const frameCount = 1243;
+        // فراخوانی مستقیم از پوشه frames داخل همان ریپازیتوری
+        const currentFrame = index => `./frames/frame_${index + 1}.jpg`;
+
+        const images = [];
+
+        function setupCanvasResolution() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            
+            context.imageSmoothingEnabled = true;
+            context.imageSmoothingQuality = 'high';
+        }
+
+        setupCanvasResolution();
+
+        let loadedCount = 0;
+
+        for (let i = 0; i < frameCount; i++) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            img.onload = () => {
+                loadedCount++;
+                let percent = Math.floor((loadedCount / frameCount) * 100);
+                progressText.innerText = `${percent}%`;
+                progressFill.style.width = `${percent}%`;
+
+                if (i === 0) renderFrame(0);
+
+                // لودینگ به محض آماده شدن فریم‌ها محو می‌شود
+                if (loadedCount === frameCount || loadedCount >= 40) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.visibility = 'hidden';
+                    }, 1000);
+                }
+            };
+            img.onerror = () => {
+                loadedCount++;
+            };
+            images.push(img);
+        }
+
+        function renderFrame(index) {
+            const img = images[index];
+            if (img && img.complete && img.naturalWidth !== 0) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                const hRatio = canvas.width / img.width;
+                const vRatio = canvas.height / img.height;
+                const ratio = Math.max(hRatio, vRatio);
+
+                const centerShift_x = (canvas.width - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height - img.height * ratio) / 2;
+
+                context.drawImage(
+                    img,
+                    0, 0, img.width, img.height,
+                    centerShift_x, centerShift_y, img.width * ratio, img.height * ratio
+                );
+            }
+        }
+
+        function handleOverlayScroll(progress) {
+            const veilOpacity = Math.max(0, 1 - (progress / 0.10));
+            const veilBlur = Math.max(0, 20 * (1 - (progress / 0.10)));
+            introVeil.style.opacity = veilOpacity;
+            introVeil.style.backdropFilter = `blur(${veilBlur}px)`;
+            introVeil.style.webkitBackdropFilter = `blur(${veilBlur}px)`;
+
+            if (progress >= 0.10 && progress < 0.28) {
+                slide0.classList.add("active");
+            } else {
+                slide0.classList.remove("active");
+            }
+
+            if (progress >= 0.32 && progress <= 0.60) {
+                slide1.classList.add("active");
+            } else {
+                slide1.classList.remove("active");
+            }
+
+            if (progress >= 0.68 && progress <= 0.92) {
+                slide2.classList.add("active");
+            } else {
+                slide2.classList.remove("active");
+            }
+        }
+
+        let ticking = false;
+        window.addEventListener("scroll", () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollTop = document.documentElement.scrollTop;
+                    const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScrollTop));
+
+                    const frameIndex = Math.min(
+                        frameCount - 1,
+                        Math.floor(scrollFraction * frameCount)
+                    );
+
+                    renderFrame(frameIndex);
+                    handleOverlayScroll(scrollFraction);
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            setupCanvasResolution();
+            const scrollTop = document.documentElement.scrollTop;
+            const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScrollTop));
+            const frameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
+            renderFrame(frameIndex);
+        });
+
+        // Menu Toggle
+        const hamburgerBtn = document.getElementById("hamburger-btn");
+        const sideMenu = document.getElementById("side-menu");
+        const menuOverlay = document.getElementById("menu-overlay");
+
+        function toggleMenu() {
+            sideMenu.classList.toggle("active");
+            menuOverlay.classList.toggle("active");
+        }
+
+        hamburgerBtn.addEventListener("click", toggleMenu);
+        menuOverlay.addEventListener("click", toggleMenu);
+    </script>
+</body>
+</html>
