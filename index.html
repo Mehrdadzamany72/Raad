@@ -66,13 +66,6 @@
         .brand-container {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .brand-logo {
-            height: 45px;
-            width: auto;
-            object-fit: contain;
         }
 
         .brand-text-group {
@@ -372,7 +365,7 @@
             max-width: 520px;
         }
 
-        /* ---------------- Prominent Luxury Loader Screen ---------------- */
+        /* ---------------- Luxury Loader Screen ---------------- */
         .loader {
             position: fixed;
             top: 0;
@@ -385,7 +378,7 @@
             justify-content: center;
             align-items: center;
             z-index: 200;
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
         }
 
         .loader-box {
@@ -630,7 +623,6 @@
     <!-- Header Navbar -->
     <header class="header">
         <div class="brand-container">
-            <img src="./logo.png" alt="RÂAD Logo" class="brand-logo" onerror="this.style.display='none'">
             <div class="brand-text-group">
                 <a href="#" class="brand-title">RÂAD</a>
                 <span class="brand-tag">Clothing (Brand)</span>
@@ -790,7 +782,7 @@
         </div>
     </footer>
 
-    <!-- Canvas Engine & Script -->
+    <!-- Canvas Engine Script -->
     <script>
         const canvas = document.getElementById("hero-canvas");
         const context = canvas.getContext("2d");
@@ -803,7 +795,6 @@
         const slide1 = document.getElementById("slide-1");
         const slide2 = document.getElementById("slide-2");
 
-        // بازه دقیق فریم‌ها: ۱۲۴۱ فریم از ۱۰۰۰۰ تا ۱۱۲۴۰
         const startFrame = 10000;
         const endFrame = 11240;
         const frameCount = (endFrame - startFrame) + 1; 
@@ -831,17 +822,20 @@
             img.onload = () => {
                 loadedCount++;
                 let percent = Math.floor((loadedCount / frameCount) * 100);
-                progressText.innerText = `${percent}%`;
-                progressFill.style.width = `${percent}%`;
+                
+                if (progressText) progressText.innerText = `${percent}%`;
+                if (progressFill) progressFill.style.width = `${percent}%`;
 
                 if (i === 0) renderFrame(0);
 
-                // با لود شدن ۴۰ فریم اولیه لودینگ مخفی می‌شود تا کاربر منتظر نماند و بقیه فریم‌ها در پس‌زمینه بارگذاری می‌شوند
-                if (loadedCount === frameCount || loadedCount >= 40) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => {
-                        loader.style.visibility = 'hidden';
-                    }, 1000);
+                // با کم شدن حجم فایل‌ها، پس از لود کامل یا حداقل ۳۰ فریم، لودینگ مخفی می‌شود
+                if (loadedCount === frameCount || loadedCount >= 30) {
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        setTimeout(() => {
+                            loader.style.visibility = 'hidden';
+                        }, 800);
+                    }
                 }
             };
             img.onerror = () => {
@@ -927,7 +921,7 @@
             renderFrame(frameIndex);
         });
 
-        // Menu Toggle
+        // Drawer Menu Toggle
         const hamburgerBtn = document.getElementById("hamburger-btn");
         const sideMenu = document.getElementById("side-menu");
         const menuOverlay = document.getElementById("menu-overlay");
@@ -937,8 +931,8 @@
             menuOverlay.classList.toggle("active");
         }
 
-        hamburgerBtn.addEventListener("click", toggleMenu);
-        menuOverlay.addEventListener("click", toggleMenu);
+        if (hamburgerBtn) hamburgerBtn.addEventListener("click", toggleMenu);
+        if (menuOverlay) menuOverlay.addEventListener("click", toggleMenu);
     </script>
 </body>
 </html>
